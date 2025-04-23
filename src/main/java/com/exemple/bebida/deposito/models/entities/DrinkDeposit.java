@@ -16,9 +16,11 @@ public class DrinkDeposit implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+
     public DrinkDeposit(Integer id) {
         this.id = id;
     }
+
 
 
 
