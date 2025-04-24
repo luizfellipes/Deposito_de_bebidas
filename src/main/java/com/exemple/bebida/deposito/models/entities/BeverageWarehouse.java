@@ -27,4 +27,51 @@ public class BeverageWarehouse implements Serializable {
     private String drinkName;
     private Double totalVolumeInSection;
 
+    public BeverageWarehouse(Integer id, LocalDateTime data, String responsible, String section, MovimentType movimentType, DrinkType drinkType, Double volume, String drinkName) {
+        this.id = id;
+        this.data = data;
+        this.responsible = responsible;
+        this.section = section;
+        this.movimentType = movimentType;
+        this.drinkType = drinkType;
+        this.volume = volume;
+        this.drinkName = drinkName;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public LocalDateTime getData() {
+        return data;
+    }
+
+    public String getResponsible() {
+        return responsible;
+    }
+
+    public String getSection() {
+        return section;
+    }
+
+    public MovimentType getMovimentType() {
+        return movimentType;
+    }
+
+    public DrinkType getDrinkType() {
+        return drinkType;
+    }
+
+    public Double getVolume() {
+        return volume;
+    }
+
+    public String getDrinkName() {
+        return drinkName;
+    }
+
+    public Double getTotalVolumeInSection() {
+        return totalVolumeInSection;
+    }
+
 }
