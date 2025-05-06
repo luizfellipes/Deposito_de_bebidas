@@ -23,19 +23,20 @@ public class BeverageWarehouse implements Serializable {
     private String section;
     private MovimentType movimentType;
     private DrinkType drinkType;
-    private Double volume;
     private String drinkName;
-    private Double totalVolumeInSection;
+    private Double volume;
+    private Double totalInSection;
 
-    public BeverageWarehouse(Integer id, LocalDateTime data, String responsible, String section, MovimentType movimentType, DrinkType drinkType, Double volume, String drinkName) {
+
+    public BeverageWarehouse(Integer id, LocalDateTime data, String responsible, String section, MovimentType movimentType, DrinkType drinkType, String drinkName, Double volume) {
         this.id = id;
         this.data = data;
         this.responsible = responsible;
         this.section = section;
         this.movimentType = movimentType;
         this.drinkType = drinkType;
-        this.volume = volume;
         this.drinkName = drinkName;
+        validNegativeNumbers(volume);
     }
 
     public Integer getId() {
@@ -70,8 +71,18 @@ public class BeverageWarehouse implements Serializable {
         return drinkName;
     }
 
-    public Double getTotalVolumeInSection() {
-        return totalVolumeInSection;
+    public Double getTotalInSection() {
+        return totalInSection;
+    }
+
+    //Methods
+
+    private void validNegativeNumbers(Double numbers){
+        if (numbers <= 0) {
+            throw new RuntimeException("Negatives numbers are not allowed !");
+        } else {
+            this.volume = numbers;
+        }
     }
 
 }

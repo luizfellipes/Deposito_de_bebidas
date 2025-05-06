@@ -18,16 +18,18 @@ public class BeverageWarehouseService {
         this.repository = repository;
     }
 
-    public BeverageWarehouse save(BeverageWarehouseDTO beverageWarehouseDTO){
-        return Stream.of(convertToModel(beverageWarehouseDTO)).map(repository::save).findFirst().orElseThrow();
+    public BeverageWarehouse save(BeverageWarehouseDTO beverageWarehouseDTO) {
+
+
+        return Stream.of(repository.save(convertToModel(beverageWarehouseDTO))).findFirst().orElseThrow();
     }
 
     public List<BeverageWarehouse> getAll() {
         return repository.findAll();
     }
 
-    private BeverageWarehouse convertToModel(BeverageWarehouseDTO beverageWarehouseDTO){
-       return new BeverageWarehouse(beverageWarehouseDTO.id(), beverageWarehouseDTO.data(), beverageWarehouseDTO.responsible(), beverageWarehouseDTO.section(), beverageWarehouseDTO.movimentType(), beverageWarehouseDTO.drinkType(), beverageWarehouseDTO.volume(),beverageWarehouseDTO.drinkName());
+    private BeverageWarehouse convertToModel(BeverageWarehouseDTO beverageWarehouseDTO) {
+        return new BeverageWarehouse(beverageWarehouseDTO.id(), beverageWarehouseDTO.data(), beverageWarehouseDTO.responsible(), beverageWarehouseDTO.section(), beverageWarehouseDTO.movimentType(), beverageWarehouseDTO.drinkType(), beverageWarehouseDTO.drinkName(), beverageWarehouseDTO.volume());
     }
 
 
