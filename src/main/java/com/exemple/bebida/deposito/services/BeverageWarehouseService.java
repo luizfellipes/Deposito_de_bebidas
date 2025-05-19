@@ -24,12 +24,12 @@ public class BeverageWarehouseService {
     }
 
     public BeverageWarehouse save(BeverageWarehouseDTO beverageWarehouseDTO) {
-        return Stream.of(repository.save(convertToModel(beverageWarehouseDTO)))
+        return Stream.of(convertToModel(beverageWarehouseDTO))
                 .map(beverageWarehouse -> {
                     verifyPermitSection(beverageWarehouse);
                     addOrRemoveVolumeInSection(beverageWarehouse);
-                    beverageWarehouse.totalVolumeInSection(beverageWarehouse.getVolume());
-                    return beverageWarehouse;
+                    totalVolumeOnSection(beverageWarehouse);
+                    return repository.save(beverageWarehouse);
                 })
                 .findFirst()
                 .orElseThrow();
