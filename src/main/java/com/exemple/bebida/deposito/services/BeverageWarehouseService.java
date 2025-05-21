@@ -8,7 +8,9 @@ import com.exemple.bebida.deposito.repositores.BeverageWarehouseRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
@@ -26,6 +28,7 @@ public class BeverageWarehouseService {
     public BeverageWarehouse save(BeverageWarehouseDTO beverageWarehouseDTO) {
         return Stream.of(convertToModel(beverageWarehouseDTO))
                 .map(beverageWarehouse -> {
+                    excessVolume(beverageWarehouse);
                     verifyPermitSection(beverageWarehouse);
                     addOrRemoveVolumeInSection(beverageWarehouse);
                     totalVolumeOnSection(beverageWarehouse);
@@ -63,6 +66,27 @@ public class BeverageWarehouseService {
             throw new RuntimeException("You can't make an output without having volume in stock !");
         }
         beverageWarehouse.totalVolumeInSection(actualVolume);
+    }
+
+    public List<Map<String, Double>> getAllVolumesPerDrink() {
+        return repository.findAll()
+                .stream()
+                .collect(Collectors.toMap(
+                        beverageWarehouse ->
+                                "Section: " + beverageWarehouse.getSection() +
+                                        ", DrinkType: " + beverageWarehouse.getDrinkType() +
+                                        ", VolumeTotalInSection", this::totalVolumeOnSection,
+                        (existing, replacement) -> existing))
+                .entrySet()
+                .stream()
+                .map(entry -> Map.of(entry.getKey(), entry.getValue()))
+                .toList();
+    }
+
+    private void excessVolume(BeverageWarehouse beverageWarehouse) {
+        if (beverageWarehouse.getMovimentType().equals(MovimentType.ENTRY) && totalVolumeOnSection(beverageWarehouse) + beverageWarehouse.getVolume() > config.maxCapacity(beverageWarehouse.getDrinkType())) {
+            throw new RuntimeException("Não foi possível adicionar na seção pois o volume total foi excedente! " + "Volume maximo na seção: " + config.maxCapacity(beverageWarehouse.getDrinkType()));
+        }
     }
 
 
