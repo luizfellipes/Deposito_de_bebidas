@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class BeverageWarehouseController {
@@ -31,6 +32,11 @@ public class BeverageWarehouseController {
     @GetMapping
     public ResponseEntity<List<BeverageWarehouse>>getAll(){
         return ResponseEntity.status(HttpStatus.OK).body(beverageWarehouse.getAll());
+    }
+
+    @GetMapping("/volume")
+    public ResponseEntity<List<Map<String, Double>>> getAllVolume(){
+        return ResponseEntity.status(HttpStatus.OK).body(beverageWarehouse.getAllVolumesPerDrink());
     }
 
 
