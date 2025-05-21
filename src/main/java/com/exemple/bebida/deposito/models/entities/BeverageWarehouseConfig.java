@@ -1,5 +1,6 @@
 package com.exemple.bebida.deposito.models.entities;
 
+import com.exemple.bebida.deposito.models.enuns.DrinkType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -57,5 +58,9 @@ public class BeverageWarehouseConfig implements Serializable {
 
     public List<String> getPERMIT_SECTION() {
         return PERMIT_SECTION;
+    }
+
+    public Double maxCapacity(DrinkType drinkType) {
+        return DrinkType.ALCOHOLIC.equals(drinkType) ? this.MAX_ALCOHOLIC_CAPACITY : this.MAX_NONALCOHOLIC_CAPACITY;
     }
 }
